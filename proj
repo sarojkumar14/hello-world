@@ -1,0 +1,539 @@
+server.js
+------------------------
+
+
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
+const jwt = require('jsonwebtoken');
+const cors = require('cors');
+const config = require('./global/config');
+const path=require('path');
+
+const port = process.env.PORT || config.serverport;
+
+let auth = require('./routes/authenticate')
+let admin = require('./routes/admin')
+let library = require('./routes/library')
+let collectionvideolist = require('./routes/collectionvideolist')
+
+// use body parser so we can get info from POST and/or URL parameters
+//Middleware for bodyparsing using both json and urlencoding
+app.use(bodyParser.urlencoded({
+    limit: '50mb',
+    extended: true
+}));
+app.use(bodyParser.json({limit: '50mb'}));
+
+// use morgan to log requests to the console
+app.use(morgan('dev'));
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Enable CORS from client-side
+app.use(cors());
+app.use('/api/auth', auth);
+
+app.use(function (req, res, next) {
+
+    // check header or url parameters or post parameters for token
+    var token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+    // decode token
+    if (token) {
+
+        // verifies secret and checks exp
+        jwt.verify(token, config.secret, function (err, decoded) {
+            if (err) {
+                return res.json({ success: false, message: 'Failed to authenticate token.' });
+            } else {
+                // if everything is good, save to request for use in other routes
+                req.decoded = decoded;
+                next();
+            }
+        });
+
+    } else {
+
+        // if there is no token
+        // return an error
+        return res.status(403).send({
+            success: false,
+            message: 'No token provided.'
+        });
+
+    }
+});
+
+//Authenticated routes
+app.use('/api/admin', admin);
+app.use('/api/library', library);
+app.use('/api/collectionvideo', collectionvideolist);
+
+app.listen(port, () => {
+    console.log(`Starting the server at port ${port}`);
+});
+
+
+under routes folder and collection videolist.js file
+-----------------------------------------------------------
+
+
+const express = require('express');
+const router = express.Router();
+const fs = require('fs');
+const libQuery = require('../Data/collectionvideos.data')
+
+router.post('/create', function (req, res, next) {
+    var data = req.body;
+    var path = __dirname + '/../public/collectionvideolist/' + data.image.filename;
+    fs.writeFile(path, data.image.fileData,'base64', (err) => {
+        // throws an error, you could also catch it here
+        if (err) {
+            res.status('500').send({ error: "Error occured in File processing." })
+        }
+        libQuery.createLibrary(data, function (err, response) {
+            if (err) {
+                res.status('500').send({ error: "Error occured while processing." })
+            }
+            res.send(response);
+        })
+    });
+});
+
+router.get('/getAllLibrary', function (req, res, next) {
+    libQuery.getAllLibrary(function (err, response) {
+        if (err) {
+            res.status('500').send({ error: "Error occured while processing." })
+        }
+        res.send(response.rows);
+    })
+})
+
+router.post('/deleteLibrary', function (req, res, next) {
+    var id = req.body.Id;
+    libQuery.deleteLibrary(id,function (err, response) {
+        if (err) {
+            res.status('500').send({ error: "Error occured while processing." })
+        }
+        res.send({message:'Data deleted successfuly'});
+    })
+})
+
+
+router.get('/getAllFiles', function (req, res, next) {
+
+    if (process.argv.length <= 2) {
+        console.log("Usage: " + __filename + " path/to/directory");
+        process.exit(-1);
+    }
+     
+    var path = process.argv[2];
+     
+    fs.readdir(path, function(err, items) {
+        console.log(items);
+     
+        for (var i=0; i<items.length; i++) {
+            console.log(items[i]);
+        }
+    });
+})
+
+ 
+
+
+module.exports = router;
+
+
+under models folder library.js
+--------------------------------------
+
+module.exports = function (sequelize, DataTypes) {
+    var libary = sequelize.define('Library', {
+        Id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        Name: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        Description: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        Image: {
+            type: DataTypes.STRING,
+            allowNull: true
+        }
+    }, {
+        tableName: 'Library'
+    });
+    return libary;
+};
+
+
+under data folder library.data.js
+--------------------------------------
+
+
+const models = require('../models');
+
+let createLibrary = function (library, callback) {
+    models.Library.create({ Name: library.name, Description: library.description, Image: library.image.filename })
+        .then(lib => {
+            callback(null, lib);
+        }).catch(function (err) {
+            callback(err);
+        });
+};
+
+let getAllLibrary = function (callback) {
+    models.Library.findAndCountAll()
+        .then(lib => {
+            callback(null, lib);
+        }).catch(function (err) {
+            callback(err);
+        });
+};
+
+let deleteLibrary = function (id, callback) {
+    models.Library.destroy({
+        where: {
+            Id: id
+        }
+    })
+        .then(lib => {
+            callback(null, lib);
+        }).catch(function (err) {
+            callback(err);
+        });
+}
+
+module.exports = {
+    createLibrary: createLibrary,
+    getAllLibrary: getAllLibrary,
+    deleteLibrary: deleteLibrary
+};
+
+under global folder config.js
+------------------------------
+
+const path=require('path');
+
+module.exports = {
+    'serverport':3000,
+    'tokenexp': 86400,
+    'secret': 'videolibserver',
+    'galaryImage':'',
+    'videopath':''
+}
+
+dbconfig.js
+--------------------
+module.exports = {
+    "username": "sa",
+    "password": "integra@123",
+    "server": "ISSEZ-S151",
+    "database": "VideoLib"
+}
+
+
+package .json
+------------------
+
+{
+  "name": "video-lib-server",
+  "version": "1.0.0",
+  "description": "VideoLibraryServer",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "jsonwebtoken": "^8.1.1",
+    "morgan": "^1.9.0",
+    "sequelize": "^4.33.3",
+    "tedious": "^2.3.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@172.44.10.13:dc277/VideoLibraryServer.git"
+  },
+  "author": "Rajamanickam.R",
+  "license": "ISC"
+}
+
+
+
+landing
+-------------
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3 col-xs-1 p-l-0 p-r-0" id="sidebar">
+      <div class="list-group panel">
+        <a href="#menu1" class="list-group-item collapsed" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i class="fa fa-dashboard"></i> <span class="hidden-sm-down">Library</span> </a>
+        <div class="collapse" id="menu1">
+          <a routerLink='library' class="list-group-item" data-toggle="collapse" aria-expanded="false">List</a>
+          <div class="collapse" id="menu1sub1">
+            <a href="#" class="list-group-item" data-parent="#menu1sub1">Subitem 1 a</a>
+            <a href="#" class="list-group-item" data-parent="#menu1sub1">Subitem 2 b</a>
+            <a href="#menu1sub1sub1" class="list-group-item" data-toggle="collapse" aria-expanded="false">Subitem 3 c </a>
+            <div class="collapse" id="menu1sub1sub1">
+              <a href="#" class="list-group-item" data-parent="#menu1sub1sub1">Subitem 3 c.1</a>
+              <a href="#" class="list-group-item" data-parent="#menu1sub1sub1">Subitem 3 c.2</a>
+            </div>
+            <a href="#" class="list-group-item" data-parent="#menu1sub1">Subitem 4 d</a>
+            <a href="#menu1sub1sub2" class="list-group-item" data-toggle="collapse" aria-expanded="false">Subitem 5 e </a>
+            <div class="collapse" id="menu1sub1sub2">
+              <a href="#" class="list-group-item" data-parent="#menu1sub1sub2">Subitem 5 e.1</a>
+              <a href="#" class="list-group-item" data-parent="#menu1sub1sub2">Subitem 5 e.2</a>
+            </div>
+          </div>
+          <a href="#" class="list-group-item" data-parent="#menu1">Subitem 2</a>
+          <a href="#" class="list-group-item" data-parent="#menu1">Subitem 3</a>
+        </div>
+        <a href="#" class="list-group-item collapsed" data-parent="#sidebar"><i class="fa fa-film"></i> <span class="hidden-sm-down">Item 2</span></a>
+        <a href="#menu3" class="list-group-item collapsed" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i class="fa fa-book"></i> <span class="hidden-sm-down">Item 3 </span></a>
+        <div class="collapse" id="menu3">
+          <a href="#" class="list-group-item" data-parent="#menu3">3.1</a>
+          <a href="#menu3sub2" class="list-group-item" data-toggle="collapse" aria-expanded="false">3.2 </a>
+          <div class="collapse" id="menu3sub2">
+            <a href="#" class="list-group-item" data-parent="#menu3sub2">3.2 a</a>
+            <a href="#" class="list-group-item" data-parent="#menu3sub2">3.2 b</a>
+            <a href="#" class="list-group-item" data-parent="#menu3sub2">3.2 c</a>
+          </div>
+          <a href="#" class="list-group-item" data-parent="#menu3">3.3</a>
+        </div>
+        <a href="#" class="list-group-item collapsed" data-parent="#sidebar"><i class="fa fa-heart"></i> <span class="hidden-sm-down">Item 4</span></a>
+        <a href="#" class="list-group-item collapsed" data-parent="#sidebar"><i class="fa fa-list"></i> <span class="hidden-sm-down">Item 5</span></a>
+        <a href="#" class="list-group-item collapsed" data-parent="#sidebar"><i class="fa fa-clock-o"></i> <span class="hidden-sm-down">Link</span></a>
+        <a href="#" class="list-group-item collapsed" data-parent="#sidebar"><i class="fa fa-th"></i> <span class="hidden-sm-down">Link</span></a>
+        <a href="#" class="list-group-item collapsed" data-parent="#sidebar"><i class="fa fa-gear"></i> <span class="hidden-sm-down">Link</span></a>
+        <a href="#" class="list-group-item collapsed" data-parent="#sidebar"><i class="fa fa-calendar"></i> <span class="hidden-sm-down">Link</span></a>
+        <a href="#" class="list-group-item collapsed" data-parent="#sidebar"><i class="fa fa-envelope"></i> <span class="hidden-sm-down">Link</span></a>
+        <a href="#" class="list-group-item collapsed" data-parent="#sidebar"><i class="fa fa-bar-chart-o"></i> <span class="hidden-sm-down">Link</span></a>
+        <a href="#" class="list-group-item collapsed" data-parent="#sidebar"><i class="fa fa-star"></i> <span class="hidden-sm-down">Link</span></a>
+      </div>
+    </div>
+    <main class="col-md-9 col-xs-11 p-l-2 p-t-2">
+      <div class="page-header">
+        <h1>Admin Panel</h1>
+      </div>
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
+
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-admin-landing',
+  templateUrl: './admin-landing.component.html',
+  styleUrls: ['./admin-landing.component.css']
+})
+export class AdminLandingComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}
+
+<div class="row">
+  <div class="col-md-12">
+    <button (click)="addToggle()" type="button" class="btn btn-outline-primary float-right" name="button">Add</button>
+  </div>
+</div>
+
+<div *ngIf="isAddEnabled" class="row">
+  <div class="col-md-6">
+    <form autocomplete="off" (ngSubmit)="onSubmit()" [formGroup]="form">
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Name</label>
+        <div class="col-10">
+          <input class="form-control" type="text" formControlName="libname" name="libname">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Description</label>
+        <div class="col-10">
+          <textarea name="libdesc" formControlName="libdesc" rows="8" cols="80"></textarea>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Image File</label>
+        <div class="col-10">
+          <input class="form-control" (change)="onFileChange($event)" type="file" name="file" placeholder="File">
+        </div>
+      </div>
+
+      <input [disabled]="!formValid" type="submit" class="btn btn-primary float-right" name="submit" value="Submit">
+    </form>
+  </div>
+</div>
+
+
+<table style="margin-top:10px;" class="table">
+  <thead class="thead-inverse">
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Image</th>
+      <th>Operation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let lib of libData">
+      <th scope="row">{{lib.Id}}</th>
+      <td>{{lib.Name}}</td>
+      <td>{{lib.Description}}</td>
+      <td>{{lib.Image}}</td>
+      <td><button class="btn btn-outline-secondary" (click)="removeItem(lib.Id)"><i class="fa fa-trash-o"></i></button>
+        <button class="btn btn-outline-secondary" (click)="removeItem(lib.Id)"><i class="fa fa fa-edit"></i></button> </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Library } from '../../_models/index';
+import { LibraryService, AuthService } from '../../_services/index';
+
+@Component({
+  selector: 'app-library',
+  templateUrl: './library.component.html',
+  styleUrls: ['./library.component.css']
+})
+export class LibraryComponent implements OnInit {
+  form: FormGroup;
+  private formValid: boolean = false;
+  isAddEnabled: boolean = false;
+  libary: Library;
+  token = '';
+  libData: any;
+  constructor(private fb: FormBuilder, private libService: LibraryService, private authService: AuthService) {
+
+    this.token = this.authService.getCurrentUserAccessToken();
+    this.libService.getAllLibrary(this.token).subscribe(
+      data => {
+        console.log(data)
+        this.libData = data;
+      }, err => { throw err; }
+    );
+
+
+    this.form = this.fb.group({
+      libname: ['', Validators.required],
+      libdesc: ['', Validators.required],
+      libimage: null
+    });
+  }
+
+  onFileChange(event) {
+    let reader = new FileReader();
+    if (event.target.files && event.target.files.length > 0) {
+      this.formValid = true;
+      let file = event.target.files[0];
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.form.get('libimage').setValue({
+          filename: file.name,
+          filetype: file.type,
+          fileData: reader.result.split(',')[1]
+        });
+      };
+    } else {
+      this.formValid = false;
+    }
+  }
+
+  ngOnInit() {
+
+  }
+
+  removeItem(id) {
+    this.libService.deleteLibrary(id, this.token)
+      .subscribe(data => {
+        console.log("Data deleted");
+      }, err => { throw err; })
+  }
+
+  addToggle() {
+    this.isAddEnabled = this.isAddEnabled ? false : true;
+  }
+
+  onSubmit() {
+    this.libary = new Library();
+    this.libary.name = this.form.value.libname;
+    this.libary.description = this.form.value.libdesc;
+    this.libary.image = this.form.value.libimage;
+    this.libary.token = this.token;
+    this.libService.createLibrary(this.libary)
+      .subscribe(data => {
+        this.isAddEnabled = false;
+        this.libData.push(data);
+        console.log(data);
+      }, err => { throw err; })
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { RequestOptions } from '@angular/http';
+import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { Library } from '../_models/index';
+@Injectable()
+export class LibraryService {
+  apiUrl: string = '';
+  constructor(private http: HttpClient) {
+    this.apiUrl = environment.apiUrl;
+  }
+
+  createLibrary(libary: Library) {
+    let url = `${this.apiUrl}api/library/create`;
+    return this.http.post(url, libary);
+  }
+
+  deleteLibrary(id: number, token: string) {
+    let url = `${this.apiUrl}api/library/deleteLibrary`;
+    return this.http.post(url, { Id: id, token: token });
+  }
+
+  getAllLibrary(tokenValue: any) {
+    let url = `${this.apiUrl}api/library/getAllLibrary`;
+    let _options = { headers: new HttpHeaders({ 'x-access-token': tokenValue }) };
+    return this.http.get(url, _options);
+  }
+}
+
+
+
+
