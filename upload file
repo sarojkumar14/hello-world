@@ -1,0 +1,540 @@
+<div class="container">
+
+  <h3 style="text-align:center"></h3>
+  <form #uploadVideoForm="ngForm" autocomplete="off" (ngSubmit)="onSubmit()">
+
+      <div class="form-group">
+        <label for="title">Title*</label>
+        <input id="title" name="title" class="form-control" required minlength="5" [(ngModel)]="video.Title" #title="ngModel">
+
+        <div *ngIf="title.invalid && (title.dirty || title.touched)" class="alert alert-danger">
+
+          <div *ngIf="title.errors.required">
+            Title is required.
+          </div>
+          <div *ngIf="title.errors.minlength">
+            Title must be at least 5 characters long.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" name="description" [(ngModel)]="video.Description" #Description="ngModel" class="form-control"
+          rows="8" cols="80"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="file">File*</label>
+        <input type="file" id="file" name="file" class="form-control" required [(ngModel)]="video.VideoFile"
+          (change)="onFileChange($event,uploadVideoForm)" #file="ngModel">
+
+        <div *ngIf="file.invalid && (file.dirty)" class="alert alert-danger">
+          <div *ngIf="file.errors.required">
+            File is required.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="transcriptFile">Transscript File*</label>
+        <input type="file" id="transcriptFile" name="transcriptFile" accept=".txt" required class="form-control" [(ngModel)]="transcript.TranscriptFile"
+        (change)="ontranscriptFileChange($event,uploadVideoForm)"  #transcriptFile="ngModel">
+
+        <div *ngIf="transcriptFile.invalid && (transcriptFile.dirty)" class="alert alert-danger">
+          <div *ngIf="transcriptFile.errors.required">
+            TranscriptFile is required.
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="tag">Tag</label>
+        <tag-input id="tag" name="tag" class="form-control" [(ngModel)]='tags' theme='bootstrap' #tag="ngModel"></tag-input>
+      </div>
+
+      <button type="submit" class="btn btn-default" [disabled]="uploadVideoForm.invalid">Submit</button>
+      <button type="button" class="btn btn-default" (click)="uploadVideoForm.resetForm({})">Reset</button>
+
+  </form>
+
+</div>
+
+
+import { Component, OnInit } from '@angular/core';
+import { Video, Transcript } from '../../_models/index';
+import { FileService, AuthService } from '../../_services/index';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-upload-video',
+  templateUrl: './upload-video.component.html',
+  styleUrls: ['./upload-video.component.css'],
+})
+export class UploadVideoComponent implements OnInit {
+
+  //videoUploadObj =  { title: null, description: null,file:null, uploadedFileObj:{}, transscriptFile: null,tag:null }
+  token = '';
+  video;
+  transcript;
+  tags = [];
+
+  constructor(private fileService: FileService, private authService: AuthService, private router: Router) {
+    this.token = this.authService.getCurrentUserAccessToken();
+
+    this.video = new Video();
+    this.video.TopicId = 1;
+    this.video.AvgRatings = 4;
+    this.video.UpdatedAt = new Date();
+    this.video.UpdatedBy = 1;
+    this.video.IsDownloadable = false;
+    this.video.CreatedAt = new Date();
+    this.video.CreatedBy = 1;
+
+    this.transcript = new Transcript;
+    this.transcript.UpdatedAt = new Date();
+    this.transcript.UpdatedBy = 1;
+    this.transcript.CreatedAt = new Date();
+    this.transcript.CreatedBy = 1;
+  }
+
+  onFileChange(event, uploadVideoForm) {
+    let reader = new FileReader();
+    if (event.target.files && event.target.files.length > 0) {
+      uploadVideoForm.form.controls['file'].setErrors(null);
+      let file = event.target.files[0];
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.video.FileName = file.name,
+          this.video.FileType = file.type,
+          this.video.Type = file.type;
+        this.video.Size = file.size,
+          this.video.FileData = reader.result.split(',')[1],
+          this.video.ActualFileName = file.name
+      };
+    } else {
+      uploadVideoForm.form.controls['file'].setErrors({ required: true });
+    }
+  }
+
+  ontranscriptFileChange(event,uploadVideoForm) {
+    let reader = new FileReader();
+    if (event.target.files && event.target.files.length > 0) {
+      uploadVideoForm.form.controls['transcriptFile'].setErrors(null);
+      let file = event.target.files[0];
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.transcript.FileName = file.name,
+          this.transcript.FileType = file.type,
+          this.transcript.Size = file.size,
+          this.transcript.FileData = reader.result.split(',')[1],
+          this.transcript.ActualFileName = file.name
+      };
+    }
+    else {
+      uploadVideoForm.form.controls['transcriptFile'].setErrors({ required: true });
+    }
+  }
+
+  ngOnInit() {
+
+  }
+
+  onSubmit() {
+    this.video.Tags = '';
+    if (this.tags.length > 0) {
+      for (let tag in this.tags) {
+        this.video.Tags += this.tags[tag].value + ','
+      }
+      this.video.Tags = this.video.Tags.substring(0, this.video.Tags.length - 1);
+    }
+    this.fileService.UploadVideo(this.video, this.transcript, this.token)
+  }
+
+}
+
+export class Video {
+  Id: number;
+  TopicId:number;
+  Title: string;
+  Description: string;
+  Type: string;
+  Path: string;
+  ActualFileName:string;
+  Size:string;
+  IsDownloadable:boolean;
+  AvgRatings:number;
+  Tags:string;
+  CreateBy:number;
+  CreatedAt:Date;
+  UpdatedBy:number;
+  UpdatedAt:Date;
+
+  FileName:string;
+  FileType:string;
+  FileData:any;
+  VideoFile:any
+}
+  
+  
+  export class Transcript {
+  Id: number;
+  VideoId: number;
+  Title: string;
+  Path: string;
+  ActualFileName:string;
+  Size: number;
+  Type:string;
+  CreateBy: number;
+  CreatedAt: Date;
+  UpdatedBy: number;
+  UpdatedAt: Date;
+
+  FileName: string;
+  FileType: string;
+  FileData: any;
+  TranscriptFile: any
+}
+
+
+import { Directive, forwardRef, Attribute } from '@angular/core';
+import { Validator, AbstractControl, NG_VALIDATORS } from '@angular/forms';
+
+@Directive({
+    selector: '[validateEqual][formControlName],[validateEqual][formControl],[validateEqual][ngModel]',
+    providers: [
+        { provide: NG_VALIDATORS, useExisting: forwardRef(() => EqualValidator), multi: true }
+    ]
+})
+export class EqualValidator implements Validator {
+    constructor( @Attribute('validateEqual') public validateEqual: string,
+        @Attribute('reverse') public reverse: string) {
+
+    }
+
+    private get isReverse() {
+        if (!this.reverse) return false;
+        return this.reverse === 'true' ? true: false;
+    }
+
+    validate(c: AbstractControl): { [key: string]: any } {
+        // self value
+        let v = c.value;
+
+        // control vlaue
+        let e = c.root.get(this.validateEqual);
+
+        // value not equal
+        if (e && v !== e.value && !this.isReverse) {
+          return {
+            validateEqual: false
+          }
+        }
+
+        // value equal and reverse
+        if (e && v === e.value && this.isReverse) {
+            delete e.errors['validateEqual'];
+            if (!Object.keys(e.errors).length) e.setErrors(null);
+        }
+
+        // value not equal and reverse
+        if (e && v !== e.value && this.isReverse) {
+            e.setErrors({
+                validateEqual: false
+            })
+        }
+
+        return null;
+    }
+}
+
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { RequestOptions } from '@angular/http';
+import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { Video,Transcript } from '../_models/index';
+import { Router } from '@angular/router';
+
+@Injectable()
+export class FileService {
+  apiUrl: string = '';
+  constructor(private http: HttpClient, private router: Router,) {
+    this.apiUrl = environment.apiUrl;
+  }
+
+  UploadVideo(video: Video,transcript:Transcript,token:string) {
+    let url = `${this.apiUrl}api/file/UploadVideo`;
+    return this.http.post(url, {video: video,transcript:transcript,token:token})
+    .subscribe(data => {
+      this.router.navigate(['./files/videolist']);
+    },
+    err => {
+      alert(err.error)
+      console.log('Error occured while attempt to login' + JSON.stringify(err));
+    });
+  }
+
+}
+
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule, ErrorHandler } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { AppComponent } from './app.component';
+import { LoginComponent } from './login/login.component';
+import { ResourceLandingComponent } from './resources/resource-landing/resource-landing.component';
+import { AuthGuard } from './_guard/auth.guard';
+import { AdminLandingComponent } from './admin/admin-landing/admin-landing.component';
+import { GlobalErrorHandler } from './_handlers/error.handler';
+import { LibraryComponent } from './admin/library/library.component';
+import { UploadfileLayoutComponent } from './uploadfile/uploadfile-layout/uploadfile-layout.component';
+import { VideoListComponent } from './uploadfile/video-list/video-list.component';
+import { UploadVideoComponent } from './uploadfile/upload-video/upload-video.component';
+import { TagInputModule } from 'ngx-chips';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // this is needed!
+
+//_services
+import { AuthService, LibraryService,FileService } from './_services/index';
+import { RegisterComponent } from './register/register.component';
+import { EqualValidator } from './_directive';
+
+const routes: Routes = [
+  { path: '', component: LoginComponent },
+  { path: 'resource', component: ResourceLandingComponent, canActivate: [AuthGuard] },
+  {
+    path: 'admin', component: AdminLandingComponent, canActivate: [AuthGuard], children: [
+      { path: 'library', component: LibraryComponent }
+    ]
+  },
+  {
+    path: 'files', component: UploadfileLayoutComponent, canActivate: [AuthGuard], children: [
+      { path: 'videolist', component: VideoListComponent }, { path: 'uploadvideo', component: UploadVideoComponent }
+    ]
+  },
+  {
+    path: 'register', component: RegisterComponent
+  }
+];
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    ResourceLandingComponent,
+    AdminLandingComponent,
+    LibraryComponent,
+    RegisterComponent,
+    EqualValidator,
+    UploadfileLayoutComponent,
+    VideoListComponent,
+    UploadVideoComponent
+  ],
+  imports: [
+    BrowserModule,
+    RouterModule.forRoot(routes, { useHash: true }),
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TagInputModule, BrowserAnimationsModule
+  ],
+  providers: [AuthGuard, AuthService, LibraryService,FileService, { provide: ErrorHandler, useClass: GlobalErrorHandler }],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+const express = require('express');
+const router = express.Router();
+const fs = require('fs');
+const fileQuery = require('../Data/file.data')
+
+router.post('/UploadVideo', function (req, res, next) {
+    var video = req.body.video;
+    var path = __dirname + '/../public/video/' + video.FileName;
+
+    var transcript = req.body.transcript;
+    var transcriptPath = __dirname + '/../public/transcript/' + transcript.FileName;
+
+    //upload file in a path
+    fs.writeFile(path, video.FileData, 'base64', (err) => {
+        // throws an error, you could also catch it here
+        if (err) {
+            res.status('500').send({ error: "Error occured in File processing." })
+        }
+        else {
+
+            //store uploaded file information in database
+            video.Path = '/../public/files/';
+            video.ServerFileName = video.FileName;
+            fileQuery.UploadVideo(video, function (err, response) {
+                if (err) {
+                    res.status('500').send({ error: "Error occured while processing." })
+                }
+                else {
+                    //upload transcript file in a path
+                    fs.writeFile(transcriptPath, transcript.FileData, 'base64', (err) => {
+                        if (err) {
+                            res.status('500').send({ error: "Error occured in transcript File processing." })
+                        }
+                        else {
+                             //store uploaded transcript file information in database
+                            transcript.Path = '/../public/transcript/';
+                            transcript.ServerFileName = transcript.FileName;
+                            transcript.VideoId=response.Id;
+                            transcript.Title="Manual Added";
+                            fileQuery.UploadTranscript(transcript, function (err, response) {
+                                if (err) {
+                                    res.status('500').send({ error: "Error occured while processing." })
+                                }
+                                else {
+                                    res.send(response);
+                                }
+                            });
+                        }
+                    });
+                }
+            })
+        }
+
+    });
+});
+
+module.exports = router;
+
+
+/* jshint indent: 2 */
+
+module.exports = function(sequelize, DataTypes) {
+  return sequelize.define('Video', {
+    Id: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    TopicId: {
+      type: DataTypes.BIGINT,
+      allowNull: false
+    },
+    Title: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    ServerFileName: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    ActualFileName: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    Description: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    Type: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    Path: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    Size: {
+      type: DataTypes.BIGINT,
+      allowNull: false
+    },
+    IsDownloadable: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true
+    },
+    AvgRatings: {
+      type: DataTypes.FLOAT,
+      allowNull: true
+    },
+    Tags: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    CreatedBy: {
+      type: DataTypes.BIGINT,
+      allowNull: true
+    },
+    UpdatedBy: {
+      type: DataTypes.BIGINT,
+      allowNull: false
+    }
+  }, {
+    tableName: 'Video'
+  });
+};
+
+
+/* jshint indent: 2 */
+
+module.exports = function(sequelize, DataTypes) {
+  return sequelize.define('VideoTranscription', {
+    Id: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    VideoId: {
+      type: DataTypes.BIGINT,
+      allowNull: false
+    },
+    Title: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    Path: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    ServerFileName: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    ActualFileName: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    CreatedBy: {
+      type: DataTypes.BIGINT,
+      allowNull: true
+    },
+    UpdatedBy: {
+      type: DataTypes.BIGINT,
+      allowNull: false
+    }
+  }, {
+    tableName: 'VideoTranscription'
+  });
+};
+
+
+const models = require('../models');
+
+let UploadVideo = function (video, callback) {
+    models.Video.create(video)
+        .then(res => {
+            callback(null, res);
+        }).catch(function (err) {
+            callback(err);
+        });
+};
+let UploadTranscript = function (transcript, callback) {
+    models.VideoTranscription.create(transcript)
+        .then(res => {
+            callback(null, res);
+        }).catch(function (err) {
+            callback(err);
+        });
+};
+
+module.exports = {
+    UploadVideo: UploadVideo,
+    UploadTranscript:UploadTranscript
+};
