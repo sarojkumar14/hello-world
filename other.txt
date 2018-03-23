@@ -1,0 +1,5 @@
+
+  // EditVideo(video: Video, transcript: Transcript, resources: any, token: string) {
+  //   let url = `${this.apiUrl}api/file/EditVideo`;
+  //   return this.http.put(url, { video: video, transcript: transcript, resources: resources, token: token });
+  // }
