@@ -3,3 +3,82 @@
   //   let url = `${this.apiUrl}api/file/EditVideo`;
   //   return this.http.put(url, { video: video, transcript: transcript, resources: resources, token: token });
   // }
+
+
+
+
+https://github.com/airbnb/javascript/tree/master/react
+https://reactpatterns.com/
+https://github.com/enaqx/awesome-react
+https://blog.risingstack.com/8-tips-to-build-better-react-apps-in-2018/
+https://dzone.com/articles/structuring-a-complex-reactredux-project
+https://web-design-weekly.com/2015/01/29/opinionated-guide-react-js-best-practices-conventions/
+https://medium.freecodecamp.org/10-points-to-remember-thatll-help-you-master-coding-in-reactjs-library-d0520d8c73d8
+https://engineering.musefind.com/our-best-practices-for-writing-react-components-dec3eb5c3fc8
+https://css-tricks.com/react-code-style-guide/
+https://americanexpress.io/clean-code-dirty-code/
+https://github.com/markerikson/react-redux-links/blob/master/react-architecture.md
+
+https://www.sitepoint.com/react-architecture-best-practices/
+https://www.toptal.com/react/tips-and-practices
+https://blog.bitsrc.io/how-to-write-better-code-in-react-best-practices-b8ca87d462b0
+https://www.tutorialspoint.com/reactjs/reactjs_best_practices.htm
+https://medium.com/prdxn/react-best-practices-and-checklist-13eaf3317d68
+https://www.upwork.com/hiring/development/reactjs-tips-best-practices/
+https://blog.risingstack.com/react-js-best-practices-for-2016/
+https://medium.freecodecamp.org/the-5-things-you-need-to-know-to-understand-react-a1dbd5d114a3
+https://scotch.io/tutorials/learning-react-getting-started-and-concepts
+https://camjackson.net/post/9-things-every-reactjs-beginner-should-know
+https://medium.com/the-andela-way/fundamental-javascript-concepts-to-help-you-get-started-with-react-7067763d3697
+https://www.icicletech.com/blog/16-opensource-reactjs-projects-to-learn-from
+https://github.com/Automattic/wp-calypso
+virtual dom
+https://medium.com/@rajaraodv/the-inner-workings-of-virtual-dom-666ee7ad47cf
+https://medium.com/@gethylgeorge/how-virtual-dom-and-diffing-works-in-react-6fc805f9f84e
+https://www.edureka.co/blog/reactjs-tutorial#EvolutionOfReact
+http://es6-features.org/#Constants
+https://blog.bitsrc.io/11-javascript-utility-libraries-you-should-know-in-2018-3646fb31ade
+http://jsfiddle.net/TigerC10/wxk53pyb/
+https://github.com/lukehoban/es6features#destructuring
+
+
+
+
+Provider 
+The option we recommend is to use a special React Redux component called <Provider> to magically make the store available to all container components in the application without passing it explicitly. You only need to use it once when you render the root component.
+registerServiceWorker : https://stackoverflow.com/questions/47953732/what-does-registerserviceworker-do-in-react-js	
+React : React Alias Reactjs is a web technology to build web applications, web sites.
+ReactDOM : ReactDOM is the glue Connecting React to DOM
+Form :- To implement form either we can use control or uncontrolled component.
+Controlled Components : - In a controlled component, form data is handled by a React component.
+https://reactjs.org/docs/forms.html
+Uncontrolled Components :- uncontrolled components, where form data is handled by the DOM itself.
+https://reactjs.org/docs/uncontrolled-components.html
+Control vs Uncontrolled Component 
+https://goshakkk.name/controlled-vs-uncontrolled-inputs-react/
+Router
+https://medium.com/@pshrmn/a-simple-react-router-v4-tutorial-7f23ff27adf
+https://www.techiediaries.com/react-router-dom-v4/#React_Router_4_Routers_BrowserRouter_vs_HashRouter
+https://www.sitepoint.com/react-router-v4-complete-guide/
+Life cycle methods
+ https://learn.co/lessons/react-component-mounting-and-unmounting
+http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/
+https://engineering.musefind.com/react-lifecycle-methods-how-and-when-to-use-them-2111a1b692b1
+https://developmentarc.gitbooks.io/react-indepth/content/life_cycle/lifecycle_methods_overview.html
+Es6
+https://github.com/lukehoban/es6features#destructuring   (good)
+https://codetower.github.io/es6-features/    (good)
+https://blog.pragmatists.com/top-10-es6-features-by-example-80ac878794bb
+https://www.hongkiat.com/blog/ecmascript-6/
+https://webapplog.com/es6/
+https://adrianmejia.com/blog/2016/10/19/overview-of-javascript-es6-features-a-k-a-ecmascript-6-and-es2015/ (Good)
+
+pure and impure function
+https://stackoverflow.com/questions/22395311/difference-between-pure-and-impure-function
+https://egghead.io/lessons/react-redux-pure-and-impure-functions
+
+Lazy Loading 
+https://reactjs.org/docs/code-splitting.html
+https://www.npmjs.com/package/react-loadable
+							
+          
