@@ -81,4 +81,16 @@ Lazy Loading
 https://reactjs.org/docs/code-splitting.html
 https://www.npmjs.com/package/react-loadable
 							
+What is DOM?
+What is Virtual DOM ?
+How React use Virtual DOM?
+React npm packages. (react and react-DOM)
+Hello World example.
+JSX
+why JSX
+Some JSX rules.
+React with and without JSX .
+Babel
+Components and props
+
           
