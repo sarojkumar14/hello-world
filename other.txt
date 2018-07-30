@@ -120,6 +120,21 @@ React with and without JSX .
 Babel
 Components and props
 
+1.Importtant ES6 features
+	1.var,const and let keywords
+	2.Arrow function
+	3.Template strings
+	4.Default function arguments
+	5.Rest and spread operators
+	6.Destructuring (array,object)
+	7.import and export
+https://blog.pragmatists.com/top-10-es6-features-by-example-80ac878794bb
+2.State and Lifecycle
+3.Handling Events
+4.Conditional Rendering
+5.Lists and Keys
+6.Forms
+
 
 
 import ClassComponentWithPropsState,{FunctionComponent,ArrowFunctionComponent} from './classfunction';
