@@ -1,11 +1,19 @@
+What is DOM?
+Document  :-  An  document is a file containing hypertext markup language.
+Object :-Elements and attributes in your page.
+Model :- In DOM, Tree Structure of HTML elements.
+So, HTML DOM is browser created tree structure arrangement of elements and attributes.
+https://www.youtube.com/watch?v=ZEyUqFshPGQ
+What id Virtual DOM ?
 
-  // EditVideo(video: Video, transcript: Transcript, resources: any, token: string) {
-  //   let url = `${this.apiUrl}api/file/EditVideo`;
-  //   return this.http.put(url, { video: video, transcript: transcript, resources: resources, token: token });
-  // }
+Copy of a Dom .
+React will create virtual  DOM in background.
+While we update any element , react will compare virtual DOM with  updated virtual DOM and if any thing different, he will inform to actual DOM to render.
+How React use Virtual DOM?
+React npm package. react and react-DOM
 
 
-
+https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model
 
 https://github.com/airbnb/javascript/tree/master/react
 https://reactpatterns.com/
@@ -60,6 +68,15 @@ Router
 https://medium.com/@pshrmn/a-simple-react-router-v4-tutorial-7f23ff27adf
 https://www.techiediaries.com/react-router-dom-v4/#React_Router_4_Routers_BrowserRouter_vs_HashRouter
 https://www.sitepoint.com/react-router-v4-complete-guide/
+https://tylermcginnis.com/react-router-protected-routes-authentication/
+https://www.vicesoftware.com/react-redux-boilerplate-with-authentication-authorization-and-architecture-best-practices/
+
+programetically navigate to routes
+https://stackoverflow.com/questions/31079081/programmatically-navigate-using-react-router
+https://stackoverflow.com/questions/42123261/programmatically-navigate-using-react-router-v4/44132287
+https://tylermcginnis.com/react-router-programmatically-navigate/
+
+
 Life cycle methods
  https://learn.co/lessons/react-component-mounting-and-unmounting
 http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/
@@ -81,6 +98,16 @@ Lazy Loading
 https://reactjs.org/docs/code-splitting.html
 https://www.npmjs.com/package/react-loadable
 							
+          
+
+  
+  
+  
+  
+  
+  
+  
+  
 What is DOM?
 What is Virtual DOM ?
 How React use Virtual DOM?
