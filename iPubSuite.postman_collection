@@ -1,0 +1,358 @@
+{
+	"id": "389df660-bfb0-b432-231c-f2d82de04e21",
+	"name": "iPubSuite",
+	"description": "",
+	"order": [
+		"8cc51130-27c6-80e4-234d-afbfd283e18f"
+	],
+	"folders": [
+		{
+			"name": "Create Project",
+			"description": "",
+			"collectionId": "389df660-bfb0-b432-231c-f2d82de04e21",
+			"order": [
+				"3b5037ce-e61d-fdb7-c4ca-ad2538a618a8",
+				"5a4b51fe-06d4-e2ab-1f71-da37e81178e4",
+				"d5180eea-e60a-b91a-861f-eb5093ce4205",
+				"c9d58f13-60d2-0ac4-0099-e16115720f2f",
+				"31dfd9a4-f1c4-3770-e362-f96c39520499",
+				"84486891-ac08-aae0-9eef-5bc40160b5a9",
+				"951e6040-851e-3bb0-2bea-cd1bd4c12b2f"
+			],
+			"owner": 0,
+			"folder": "71a76d1e-26fa-3505-04e9-712b511d2958",
+			"folders_order": [],
+			"id": "ff832102-c9be-5e7d-9411-bd00d5d0f473"
+		},
+		{
+			"name": "Project List",
+			"description": "",
+			"collectionId": "389df660-bfb0-b432-231c-f2d82de04e21",
+			"order": [
+				"8d385828-ce86-6ae4-60ad-6b5a4883d85f"
+			],
+			"owner": 0,
+			"folder": "71a76d1e-26fa-3505-04e9-712b511d2958",
+			"folders_order": [],
+			"id": "02d01e8b-87c0-343d-ac73-11b3458df8c2"
+		},
+		{
+			"name": "iRights",
+			"description": "",
+			"collectionId": "389df660-bfb0-b432-231c-f2d82de04e21",
+			"order": [],
+			"owner": 0,
+			"folders_order": [
+				"02d01e8b-87c0-343d-ac73-11b3458df8c2",
+				"ff832102-c9be-5e7d-9411-bd00d5d0f473"
+			],
+			"id": "71a76d1e-26fa-3505-04e9-712b511d2958"
+		}
+	],
+	"folders_order": [
+		"71a76d1e-26fa-3505-04e9-712b511d2958"
+	],
+	"timestamp": 1533204488961,
+	"owner": 0,
+	"public": false,
+	"requests": [
+		{
+			"id": "31dfd9a4-f1c4-3770-e362-f96c39520499",
+			"headers": "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJpczQ4MDkiLCJQYXNzd29yZCI6IlBhc3N3b3JkMTIzIiwiaWF0IjoxNTMzMTI0NDk3LCJleHAiOjE1MzMyMTA4OTd9.6G-_5uN-WCIb3xeslKnngEQQxUhveYCbDfmo--eajpw\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJpczQ4MDkiLCJQYXNzd29yZCI6IlBhc3N3b3JkMTIzIiwiaWF0IjoxNTMzMTI0NDk3LCJleHAiOjE1MzMyMTA4OTd9.6G-_5uN-WCIb3xeslKnngEQQxUhveYCbDfmo--eajpw",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{base}}/irs/get-customer-category",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "389df660-bfb0-b432-231c-f2d82de04e21",
+			"data": null,
+			"dataMode": "params",
+			"name": "Customer Category",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1533207939215,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"folder": "ff832102-c9be-5e7d-9411-bd00d5d0f473"
+		},
+		{
+			"id": "3b5037ce-e61d-fdb7-c4ca-ad2538a618a8",
+			"headers": "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJpczQ4MDkiLCJQYXNzd29yZCI6IlBhc3N3b3JkMTIzIiwiaWF0IjoxNTMzMTI0NDk3LCJleHAiOjE1MzMyMTA4OTd9.6G-_5uN-WCIb3xeslKnngEQQxUhveYCbDfmo--eajpw\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJpczQ4MDkiLCJQYXNzd29yZCI6IlBhc3N3b3JkMTIzIiwiaWF0IjoxNTMzMTI0NDk3LCJleHAiOjE1MzMyMTA4OTd9.6G-_5uN-WCIb3xeslKnngEQQxUhveYCbDfmo--eajpw",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{base}}/irs/get-project-services",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "389df660-bfb0-b432-231c-f2d82de04e21",
+			"data": null,
+			"dataMode": "params",
+			"name": "Get Project Services",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1533207686266,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"folder": "ff832102-c9be-5e7d-9411-bd00d5d0f473"
+		},
+		{
+			"id": "5a4b51fe-06d4-e2ab-1f71-da37e81178e4",
+			"headers": "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJpczQ4MDkiLCJQYXNzd29yZCI6IlBhc3N3b3JkMTIzIiwiaWF0IjoxNTMzMTI0NDk3LCJleHAiOjE1MzMyMTA4OTd9.6G-_5uN-WCIb3xeslKnngEQQxUhveYCbDfmo--eajpw\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJpczQ4MDkiLCJQYXNzd29yZCI6IlBhc3N3b3JkMTIzIiwiaWF0IjoxNTMzMTI0NDk3LCJleHAiOjE1MzMyMTA4OTd9.6G-_5uN-WCIb3xeslKnngEQQxUhveYCbDfmo--eajpw",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{base}}/irs/get-project-modeofreceipts",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "389df660-bfb0-b432-231c-f2d82de04e21",
+			"data": null,
+			"dataMode": "params",
+			"name": "Mode Of Receipt",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1533207760906,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"folder": "ff832102-c9be-5e7d-9411-bd00d5d0f473"
+		},
+		{
+			"id": "84486891-ac08-aae0-9eef-5bc40160b5a9",
+			"headers": "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJpczQ4MDkiLCJQYXNzd29yZCI6IlBhc3N3b3JkMTIzIiwiaWF0IjoxNTMzMTI0NDk3LCJleHAiOjE1MzMyMTA4OTd9.6G-_5uN-WCIb3xeslKnngEQQxUhveYCbDfmo--eajpw\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJpczQ4MDkiLCJQYXNzd29yZCI6IlBhc3N3b3JkMTIzIiwiaWF0IjoxNTMzMTI0NDk3LCJleHAiOjE1MzMyMTA4OTd9.6G-_5uN-WCIb3xeslKnngEQQxUhveYCbDfmo--eajpw",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{base}}/irs/get-customer-subcategory",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "389df660-bfb0-b432-231c-f2d82de04e21",
+			"data": null,
+			"dataMode": "params",
+			"name": "Customer Sub Category",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1533207980298,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"folder": "ff832102-c9be-5e7d-9411-bd00d5d0f473"
+		},
+		{
+			"id": "8cc51130-27c6-80e4-234d-afbfd283e18f",
+			"headers": "Content-Type: application/x-www-form-urlencoded\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/x-www-form-urlencoded",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{base}}/login",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "389df660-bfb0-b432-231c-f2d82de04e21",
+			"data": [
+				{
+					"key": "UserID",
+					"value": "is5763",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "Password",
+					"value": "VasuRaja2503",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "urlencoded",
+			"name": "Login",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1533204492003,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "8d385828-ce86-6ae4-60ad-6b5a4883d85f",
+			"headers": "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJpczQ4MDkiLCJQYXNzd29yZCI6IlBhc3N3b3JkMTIzIiwiaWF0IjoxNTMzMTI0NDk3LCJleHAiOjE1MzMyMTA4OTd9.6G-_5uN-WCIb3xeslKnngEQQxUhveYCbDfmo--eajpw\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJpczQ4MDkiLCJQYXNzd29yZCI6IlBhc3N3b3JkMTIzIiwiaWF0IjoxNTMzMTI0NDk3LCJleHAiOjE1MzMyMTA4OTd9.6G-_5uN-WCIb3xeslKnngEQQxUhveYCbDfmo--eajpw",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{base}}/irs/get-project?ProjectID=1",
+			"queryParams": [
+				{
+					"key": "ProjectID",
+					"value": "1",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1533207765045,
+			"name": "GetProjectDetails",
+			"description": "",
+			"collectionId": "389df660-bfb0-b432-231c-f2d82de04e21",
+			"responses": []
+		},
+		{
+			"id": "951e6040-851e-3bb0-2bea-cd1bd4c12b2f",
+			"headers": "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJpczQ4MDkiLCJQYXNzd29yZCI6IlBhc3N3b3JkMTIzIiwiaWF0IjoxNTMzMTI0NDk3LCJleHAiOjE1MzMyMTA4OTd9.6G-_5uN-WCIb3xeslKnngEQQxUhveYCbDfmo--eajpw\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJpczQ4MDkiLCJQYXNzd29yZCI6IlBhc3N3b3JkMTIzIiwiaWF0IjoxNTMzMTI0NDk3LCJleHAiOjE1MzMyMTA4OTd9.6G-_5uN-WCIb3xeslKnngEQQxUhveYCbDfmo--eajpw",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{base}}/irs/get-customer-currency",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "389df660-bfb0-b432-231c-f2d82de04e21",
+			"data": null,
+			"dataMode": "params",
+			"name": "Currency",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1533208012002,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"folder": "ff832102-c9be-5e7d-9411-bd00d5d0f473"
+		},
+		{
+			"id": "c9d58f13-60d2-0ac4-0099-e16115720f2f",
+			"headers": "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJpczQ4MDkiLCJQYXNzd29yZCI6IlBhc3N3b3JkMTIzIiwiaWF0IjoxNTMzMTI0NDk3LCJleHAiOjE1MzMyMTA4OTd9.6G-_5uN-WCIb3xeslKnngEQQxUhveYCbDfmo--eajpw\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJpczQ4MDkiLCJQYXNzd29yZCI6IlBhc3N3b3JkMTIzIiwiaWF0IjoxNTMzMTI0NDk3LCJleHAiOjE1MzMyMTA4OTd9.6G-_5uN-WCIb3xeslKnngEQQxUhveYCbDfmo--eajpw",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{base}}/irs/get-customer-location",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "389df660-bfb0-b432-231c-f2d82de04e21",
+			"data": null,
+			"dataMode": "params",
+			"name": "Customer Location",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1533207890673,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"folder": "ff832102-c9be-5e7d-9411-bd00d5d0f473"
+		},
+		{
+			"id": "d5180eea-e60a-b91a-861f-eb5093ce4205",
+			"headers": "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJpczQ4MDkiLCJQYXNzd29yZCI6IlBhc3N3b3JkMTIzIiwiaWF0IjoxNTMzMTI0NDk3LCJleHAiOjE1MzMyMTA4OTd9.6G-_5uN-WCIb3xeslKnngEQQxUhveYCbDfmo--eajpw\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJpczQ4MDkiLCJQYXNzd29yZCI6IlBhc3N3b3JkMTIzIiwiaWF0IjoxNTMzMTI0NDk3LCJleHAiOjE1MzMyMTA4OTd9.6G-_5uN-WCIb3xeslKnngEQQxUhveYCbDfmo--eajpw",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{base}}/irs/get-project-roletypes",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "389df660-bfb0-b432-231c-f2d82de04e21",
+			"data": null,
+			"dataMode": "params",
+			"name": "Project Role Type",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1533207847984,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"folder": "ff832102-c9be-5e7d-9411-bd00d5d0f473"
+		}
+	]
+}
